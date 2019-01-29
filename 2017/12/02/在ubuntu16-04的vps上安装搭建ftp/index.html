@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="万有笔记">
 <meta property="og:description" content="由于身边设备包含种类过多，有Windows、Ubuntu、Android、iOS，有时候想要在四台设备间同步ppt，pdf，或者在Windows和Ubuntu上切换编译环境时用u盘拷贝文件步骤过于繁琐，且现有的一台服务器还没能充分利用资源，便萌生了在vps上再搭建一个ftp服务器的想法。我对于ftp服务器的要求就是：有一定安全性，禁止匿名访问，尽量走加密通道传输，使用账户密码登录然而百度上的教程经">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-29T14:04:35.860Z">
+<meta property="og:updated_time" content="2019-01-29T15:06:01.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在ubuntu16.04的vps上安装搭建ftp">
 <meta name="twitter:description" content="由于身边设备包含种类过多，有Windows、Ubuntu、Android、iOS，有时候想要在四台设备间同步ppt，pdf，或者在Windows和Ubuntu上切换编译环境时用u盘拷贝文件步骤过于繁琐，且现有的一台服务器还没能充分利用资源，便萌生了在vps上再搭建一个ftp服务器的想法。我对于ftp服务器的要求就是：有一定安全性，禁止匿名访问，尽量走加密通道传输，使用账户密码登录然而百度上的教程经">
@@ -453,7 +453,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-29 22:04:35" itemprop="dateModified" datetime="2019-01-29T22:04:35+08:00">2019-01-29</time>
+                <time title="修改时间：2019-01-29 23:06:01" itemprop="dateModified" datetime="2019-01-29T23:06:01+08:00">2019-01-29</time>
               
             
           </span>
@@ -513,7 +513,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">4 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -538,11 +538,7 @@
 <p>这时，ftp服务器就可以使用了，但是在21端口使用ftp登录是非常危险的，即使使用了账户密码，但传输文件很容易会被劫持，因此我在Google之后选择使用更为安全的sftp。</p>
 <h2 id="2、安装配置sftp"><a href="#2、安装配置sftp" class="headerlink" title="2、安装配置sftp"></a>2、安装配置sftp</h2><p>sftp使用的是ssh文件传输协议，需要安装openssh-server,一般的vps服务器都预先安装过。安装过就可以跳过这一步。安装命令如下：<br><figure class="highlight plain"><figcaption><span>apt install openssh-server```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">安装完成之后我们需要为ftp新建一个用户。</span><br><span class="line">为了以后可能会添加用户，这里就创建一个ftpaccess用户组。</span><br><span class="line">```sudo groupadd ftpaccess</span><br></pre></td></tr></table></figure></p>
 <p>然后需要在/etc/ssh/sshd_config中修改一些参数。<br><figure class="highlight plain"><figcaption><span>vi</span><a href="/etc/ssh/sshd_config```">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">找到 **PasswordAuthentication**参数，若其=no，则将其注释掉，若为yes，就不用管。</span><br><span class="line">找到 **Subsystem sftp /usr/lib/openssh/sftp-server**将其注释掉。</span><br><span class="line">在文件最后添加下列语句：</span><br><span class="line">&lt;code&gt;Subsystem sftp internal-sftp</span><br><span class="line">Match group ftpaccess</span><br><span class="line">ChrootDirectory %h</span><br><span class="line">X11Forwarding no</span><br><span class="line">AllowTcpForwarding no</span><br><span class="line">ForceCommand internal-sftp</span><br><span class="line">&lt;/code&gt;</span><br><span class="line">之后重启ssh服务</span><br><span class="line">```service ssh restart</span><br></pre></td></tr></table></figure></p>
-<p>下面开始创建访问sftp服务的用户<br>创建用户xiaofangdyd,属于ftpaccess组<br><code>sudo useradd -m xiaofangdyd -g ftpaccess -s /usr/bin/nologin</code><br>(其中使用/usr/bin/nologin脚本来阻止ftp用户访问bash脚本，增加安全性)<br><code>sudo passwd xiaofangdyd</code><br>(设置密码)<br><code>sudo chown root /home/xiaofangdyd</code><br>(为相应文件夹赋予root权限)</p>
-<p>开启nologin脚本的开机访问<br><code>sudo vi /etc/shells</code></p>
-<p>在最后添加如下行：<br><code>/usr/bin/nologin</code></p>
-<p>最后在home文件夹创建一个用于下入文件的文件夹，并修改文件夹的所有者<br><code>mkdir /home/xiaofangdyd/files<br>sudo chown xiaofangdyd:ftpaccess /home/xiaofangdyd/files</code></p>
-<p>现在就可以通过sftp来向files文件夹上传并下载文件了。</p>
+<p>下面开始创建访问sftp服务的用户<br>创建用户xiaofangdyd,属于ftpaccess组<br><code>sudo useradd -m xiaofangdyd -g ftpaccess -s /usr/bin/nologin</code><br>(其中使用/usr/bin/nologin脚本来阻止ftp用户访问bash脚本，增加安全性)<br><code>sudo passwd xiaofangdyd</code><br>(设置密码)<br><code>sudo chown root /home/xiaofangdyd</code><br>(为相应文件夹赋予root权限)<br>开启nologin脚本的开机访问<br><code>sudo vi /etc/shells</code><br>在最后添加如下行：<br><code>/usr/bin/nologin</code><br>最后在home文件夹创建一个用于下入文件的文件夹，并修改文件夹的所有者<br><code>mkdir /home/xiaofangdyd/files<br>sudo chown xiaofangdyd:ftpaccess /home/xiaofangdyd/files</code><br>现在就可以通过sftp来向files文件夹上传并下载文件了。</p>
 <p>在Windows和Linux操作端，推荐使用<strong>filezilla客户端版</strong>（filezilla Client）对ftp服务器进行访问。因为首先fz提供了对sftp登录的支持，最重要的是，由于简体中文版的Windows系统因为国家规定使用的是GBK字符编码，在ubuntu服务器以及linux上，默认使用的是utf-8全球通用编码，编码不同会导致中文文件名乱码。因此需要在fz中开启强制使用utf-8编码，才能保证文件之间的稳定传输。<br>在iOS上，我使用的是FtpManager，同样使用sftp登录，强制使用utf-8字符编码。<br>在Android上,我使用的是AndFTP，设置同上。</p>
 
       
@@ -592,8 +588,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/22/hello-Hexo/" rel="prev" title="hello, Hexo">
-                hello, Hexo <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/10/2进制转高进制压缩长度-《天才枪手》观后感/" rel="prev" title="2进制转高进制压缩长度--《天才枪手》观后感">
+                2进制转高进制压缩长度--《天才枪手》观后感 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -666,7 +662,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -685,7 +681,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -718,7 +716,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -843,7 +845,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">8k</span>
+    <span title="站点总字数">9k</span>
   
 
   
@@ -852,7 +854,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">13 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
   
 -->
 </div>
@@ -895,7 +897,7 @@
 
   <div class="powered-by">
     <i class="fa fa-pencil"></i>
-      <span class="post-count">博客全站共4.1k字</span>
+      <span class="post-count">博客全站共5k字</span>
   </div>
 
 
