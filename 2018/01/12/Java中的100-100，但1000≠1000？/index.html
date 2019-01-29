@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="万有笔记">
 <meta property="og:description" content="如果我们在Java中运行一段代码：1234Integer a = 100, b = 100;System.out.println(a == b);Integer c = 1000, d = 1000;System.out.println(c == d); 你会得到：truefalse">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-29T15:21:23.050Z">
+<meta property="og:updated_time" content="2019-01-29T15:32:46.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的100 = 100，但1000≠1000？">
 <meta name="twitter:description" content="如果我们在Java中运行一段代码：1234Integer a = 100, b = 100;System.out.println(a == b);Integer c = 1000, d = 1000;System.out.println(c == d); 你会得到：truefalse">
@@ -453,7 +453,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-29 23:21:23" itemprop="dateModified" datetime="2019-01-29T23:21:23+08:00">2019-01-29</time>
+                <time title="修改时间：2019-01-29 23:32:46" itemprop="dateModified" datetime="2019-01-29T23:32:46+08:00">2019-01-29</time>
               
             
           </span>
@@ -506,7 +506,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.3k</span>
+                <span title="本文字数">2.4k</span>
               
 
               
@@ -541,7 +541,7 @@
 
       
         <p>如果我们在Java中运行一段代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">100</span>, b = <span class="number">100</span>;</span><br><span class="line">System.out.println(a == b);</span><br><span class="line">Integer c = <span class="number">1000</span>, d = <span class="number">1000</span>;</span><br><span class="line">System.out.println(c == d);</span><br></pre></td></tr></table></figure></p>
-<p>你会得到：<br><code>true<br>false</code><br><a id="more"></a><br>首先，先说明，Java是面向对象的编程语言，一切都是对象，但是为了编程的方便还是引入了基本数据类型，为了能够将这些基本数据类型当成对象操作，Java为每一个基本数据类型都引入了对应的包装类型（wrapper class），int的包装类就是Integer，从Java 5开始引入了自动装箱/拆箱机制，使得二者可以相互转换，对应如下：<br>|原始类型|boolean|char|byte|short|int|long|float|double|<br>| —– | —– | —– | —– | —– | —– | —– | —– | —– |<br>|包装类型|Boolean|Character|Byte|Short|Integer|Long|Float|Double|<br><strong>所以最根本的一点区别就是</strong>：int的初始值是0，integer的初始值是null；<br>其他还有一些显著的区别就是：</p>
+<p>你会得到：<br><code>true<br>false</code><br><a id="more"></a><br>首先，先说明，Java是面向对象的编程语言，一切都是对象，但是为了编程的方便还是引入了基本数据类型，为了能够将这些基本数据类型当成对象操作，Java为每一个基本数据类型都引入了对应的包装类型（wrapper class），int的包装类就是Integer，从Java 5开始引入了自动装箱/拆箱机制，使得二者可以相互转换，对应如下：<br>| 原始类型 | boolean | char | byte | short | int | long | float | double |<br>| —– | —– | —– | —– | —– | —– | —– | —– | —– |<br>| 包装类型 | Boolean | Character | Byte | Short | Integer | Long | Float | Double |<br><strong>所以最根本的一点区别就是</strong>：int的初始值是0，integer的初始值是null；<br>其他还有一些显著的区别就是：</p>
 <ul>
 <li>Integer变量必须实例化后才能使用，而int变量不需要。</li>
 <li>Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象；而int则是直接存储数据值 。</li>
