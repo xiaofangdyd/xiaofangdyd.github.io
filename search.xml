@@ -1,74 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>在服务器端使用一键安装ss脚本及线路优化</title>
-      <link href="/2019/01/29/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96/"/>
-      <url>/2019/01/29/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96/</url>
-      
-        <content type="html"><![CDATA[<h2 id="下载："><a href="#下载：" class="headerlink" title="下载："></a>下载：</h2><p><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">常规版Windows客户端</a></p><p><a href="https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases" target="_blank" rel="noopener">ShadowsocksR版Windows客户端</a></p><h2 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h2><p>为了能有一个稳定的上网环境，以及某件事情的影响，萌生了想自己搭梯子的想法。最近的一个月一直在恶补这方面的知识，并自己动手实践，对shadowsocks的使用才初步入门，知道了在服务器端安装ss客户端的方法，总结下来，最为简单易用的是秋水逸冰的一键安装脚本<br><a id="more"></a><br>本脚本适用于CentOS 6，7，Debian，Ubuntu系统，ss客户端对硬件资源的要求并不高，因此在选择服务器时如果没有其他需求的话，只用考虑网络带宽以及流量问题，这里需要注意的是，搭建的服务器相当于是本地访问和网站之间的桥梁，网站的数据包会先下载到服务器上，然后由服务器上传到本地客户端中，因此，<strong>服务器端使用的流量是本地流量的2倍</strong>，就好比你在购买服务器时，网站提示一个月有1000g的流量限制，当你在youtube上看500g的视频后，你的服务器端1000g流量其实已经用完了。<br>服务器的购买并没有固定的推荐，每个地区的网络不同，运营商不同都会导致网速的差异，因此选择一个好的服务器很重要。我所在的西安电信使用digitalocean上提供的sfo的ubuntu服务器实测下载峰值可以达到2m/s，其他地区未知。购买及连接方法日后再谈，今天主要想记录下服务器的配置及优化。<br>本文使用的是秋水逸冰的一键安装脚本，当在本地使用ssh命令（linux及mac os）或者xshell5（windows）连接上服务器的root用户后，依次运行以下3条命令。</p><p><code>wget –no-check-certificate -O shadowsocks-all.sh <a href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</a><br>chmod +x shadowsocks-all.sh<br>./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</code><br>之后脚本便自动执行，首先选择安装shadowsocks的版本，默认的1是常规，还有一个shadowsocksR版可供选择。<br>然后脚本会提示进行shadowsocks的基本参数设置<br>第一次是设置密码（如不设定，默认为 teddysun.com）<br>然后是服务器端口（如不设定，默认为 8989）<br>最后是选择加密方式（如不设定，默认为 aes-256-gcm）<br>加密方式我一般选择为第7个 aes-256-cfb（因为其支持的客户端相对较多一点）<br>安装完成后，脚本会提示：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations, Shadowsocks-python server install completed!</span><br><span class="line">Your Server IP :your_server_ip</span><br><span class="line">Your Server Port :your_server_port</span><br><span class="line">Your Password :your_password</span><br><span class="line">Your Encryption Method:your_encryption_method</span><br><span class="line"></span><br><span class="line">Welcome to visit:https://teddysun.com/342.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure><p>这时可以记下ip 远程端口 和密码在shadowsocks客户端上使用了。<br>为了充分发挥服务器的网络性能，就需要对服务器的网络进行优化，最近Google 开源了其TCP BBR拥塞控制算法，并提交到了Linux内核。从4.9开始，Linux 内核已经用上了该算法。经过上机测试，有些机器的网速甚至可以提升好几个数量级。本次更新内核及开启bbr算法依旧使用的是秋水逸冰的脚本。<br>在服务器root用户下，使用命令：</p><figure class="highlight plain"><figcaption><span>--no-check-certificate</span><a href="https://github.com/teddysun/across/raw/master/bbr.sh" target="_blank" rel="noopener">&& chmod +x bbr.sh && ./bbr.sh```</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。</span><br><span class="line">重启完成后，进入 VPS，验证一下是否成功安装最新内核并开启 TCP BBR，输入以下命令：</span><br><span class="line">```uname -r</span><br></pre></td></tr></table></figure><p>查看内核版本，如果显示在4.13及以上说明ok了。这时服务器端的ss已经配置优化完成，<strong>脚本默认开启了ss的开机启动</strong>，因此服务器重启也不会有影响。</p><h2 id="卸载："><a href="#卸载：" class="headerlink" title="卸载："></a>卸载：</h2><p>在root用户下，使用命令<br><figure class="highlight plain"><figcaption><span>uninstall```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 使用命令：</span><br><span class="line">启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。</span><br><span class="line">Shadowsocks-Python 版：</span><br><span class="line">```/etc/init.d/shadowsocks-python start | stop | restart | status</span><br></pre></td></tr></table></figure></p><p>ShadowsocksR 版：<br><figure class="highlight plain"><figcaption><span>start | stop | restart | status```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Shadowsocks-Go 版：</span><br><span class="line">```/etc/init.d/shadowsocks-go start | stop | restart | status</span><br></pre></td></tr></table></figure></p><p>Shadowsocks-libev 版：<br><figure class="highlight plain"><figcaption><span>start | stop | restart | status```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">各版本默认配置文件位置</span><br><span class="line">Shadowsocks-Python 版：</span><br><span class="line">```/etc/shadowsocks-python/config.json</span><br></pre></td></tr></table></figure></p><p>ShadowsocksR 版：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Shadowsocks-Go 版：</span><br><span class="line">```/etc/shadowsocks-go/config.json</span><br></pre></td></tr></table></figure></p><p>Shadowsocks-libev 版：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">多用户多端口配置方法</span><br><span class="line">在root用户下，使用命令</span><br><span class="line">```vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure></p><p>e.g:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;port_password&quot;:&#123;</span><br><span class="line">&quot;8989&quot;:&quot;password0&quot;,</span><br><span class="line">&quot;9001&quot;:&quot;password1&quot;,</span><br><span class="line">&quot;9002&quot;:&quot;password2&quot;,</span><br><span class="line">&quot;9003&quot;:&quot;password3&quot;,</span><br><span class="line">&quot;9004&quot;:&quot;password4&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;your_encryption_method&quot;,</span><br><span class="line">&quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://teddysun.com/342.html" target="_blank" rel="noopener">https://teddysun.com/342.html</a><br><a href="https://teddysun.com/489.html" target="_blank" rel="noopener">https://teddysun.com/489.html</a></p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title><![CDATA[hello, Hexo]]></title>
+    <url>%2F2019%2F01%2F22%2Fhello-Hexo%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[在服务器端使用一键安装ss脚本及线路优化]]></title>
+    <url>%2F2017%2F11%2F21%2F%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[下载：常规版Windows客户端 ShadowsocksR版Windows客户端 安装：为了能有一个稳定的上网环境，以及某件事情的影响，萌生了想自己搭梯子的想法。最近的一个月一直在恶补这方面的知识，并自己动手实践，对shadowsocks的使用才初步入门，知道了在服务器端安装ss客户端的方法，总结下来，最为简单易用的是秋水逸冰的一键安装脚本本脚本适用于CentOS 6，7，Debian，Ubuntu系统，ss客户端对硬件资源的要求并不高，因此在选择服务器时如果没有其他需求的话，只用考虑网络带宽以及流量问题，这里需要注意的是，搭建的服务器相当于是本地访问和网站之间的桥梁，网站的数据包会先下载到服务器上，然后由服务器上传到本地客户端中，因此，服务器端使用的流量是本地流量的2倍，就好比你在购买服务器时，网站提示一个月有1000g的流量限制，当你在youtube上看500g的视频后，你的服务器端1000g流量其实已经用完了。服务器的购买并没有固定的推荐，每个地区的网络不同，运营商不同都会导致网速的差异，因此选择一个好的服务器很重要。我所在的西安电信使用digitalocean上提供的sfo的ubuntu服务器实测下载峰值可以达到2m/s，其他地区未知。购买及连接方法日后再谈，今天主要想记录下服务器的配置及优化。本文使用的是秋水逸冰的一键安装脚本，当在本地使用ssh命令（linux及mac os）或者xshell5（windows）连接上服务器的root用户后，依次运行以下3条命令。123wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.shchmod +x shadowsocks-all.sh./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log 之后脚本便自动执行，首先选择安装shadowsocks的版本，默认的1是常规，还有一个shadowsocksR版可供选择。然后脚本会提示进行shadowsocks的基本参数设置第一次是设置密码（如不设定，默认为 teddysun.com）然后是服务器端口（如不设定，默认为 8989）最后是选择加密方式（如不设定，默认为 aes-256-gcm）加密方式我一般选择为第7个 aes-256-cfb（因为其支持的客户端相对较多一点）安装完成后，脚本会提示： 12345678Congratulations, Shadowsocks-python server install completed!Your Server IP :your_server_ipYour Server Port :your_server_portYour Password :your_passwordYour Encryption Method:your_encryption_methodWelcome to visit:https://teddysun.com/342.htmlEnjoy it! 这时可以记下ip 远程端口 和密码在shadowsocks客户端上使用了。为了充分发挥服务器的网络性能，就需要对服务器的网络进行优化，最近Google 开源了其TCP BBR拥塞控制算法，并提交到了Linux内核。从4.9开始，Linux 内核已经用上了该算法。经过上机测试，有些机器的网速甚至可以提升好几个数量级。本次更新内核及开启bbr算法依旧使用的是秋水逸冰的脚本。在服务器root用户下，使用命令： --no-check-certificate&& chmod +x bbr.sh && ./bbr.sh```1234安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。重启完成后，进入 VPS，验证一下是否成功安装最新内核并开启 TCP BBR，输入以下命令：```uname -r 查看内核版本，如果显示在4.13及以上说明ok了。这时服务器端的ss已经配置优化完成，脚本默认开启了ss的开机启动，因此服务器重启也不会有影响。 卸载：在root用户下，使用命令uninstall```12345## 使用命令：启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。Shadowsocks-Python 版：```/etc/init.d/shadowsocks-python start | stop | restart | status ShadowsocksR 版：start | stop | restart | status```123Shadowsocks-Go 版：```/etc/init.d/shadowsocks-go start | stop | restart | status Shadowsocks-libev 版：start | stop | restart | status```1234各版本默认配置文件位置Shadowsocks-Python 版：```/etc/shadowsocks-python/config.json ShadowsocksR 版：123Shadowsocks-Go 版：```/etc/shadowsocks-go/config.json Shadowsocks-libev 版：1234多用户多端口配置方法在root用户下，使用命令```vi /etc/shadowsocks.json e.g:1234567891011121314&quot;server&quot;:&quot;0.0.0.0&quot;,&quot;local_address&quot;:&quot;127.0.0.1&quot;,&quot;local_port&quot;:1080,&quot;port_password&quot;:&#123;&quot;8989&quot;:&quot;password0&quot;,&quot;9001&quot;:&quot;password1&quot;,&quot;9002&quot;:&quot;password2&quot;,&quot;9003&quot;:&quot;password3&quot;,&quot;9004&quot;:&quot;password4&quot;&#125;,&quot;timeout&quot;:300,&quot;method&quot;:&quot;your_encryption_method&quot;,&quot;fast_open&quot;: false&#125; 参考链接https://teddysun.com/342.htmlhttps://teddysun.com/489.html]]></content>
       <categories>
-          
-          <category> tools </category>
-          
+        <category>tools</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> shadowsocks </tag>
-            
-            <tag> Google BBR </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>hello, Hexo</title>
-      <link href="/2019/01/22/hello-Hexo/"/>
-      <url>/2019/01/22/hello-Hexo/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>常用网址查询</title>
-      <link href="/2017/11/21/%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2/"/>
-      <url>/2017/11/21/%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2/</url>
-      
-        <content type="html"><![CDATA[<p><a href="http://210.27.80.195:8001/" target="_blank" rel="noopener">校园卡转账（校园网）</a><br><a href="http://aaa2.nwsuaf.edu.cn:8080/selfservice/" target="_blank" rel="noopener">西农校园网自助服务系统（校园网）</a><br><a href="http://219.245.196.72" target="_blank" rel="noopener">英语视听说网址（校园网）</a><br><a href="https://odv.xiaofangdyd.cn" target="_blank" rel="noopener">万有仓库</a><br><a href="http://code.xiaofangdyd.cn/" target="_blank" rel="noopener">代码托管平台</a><br><a href="http://pt.nwsuaf6.edu.cn/index.php" target="_blank" rel="noopener">麦田pt的ipv6网址（需要ipv6网）</a><br><a href="https://movie.douban.com/top250" target="_blank" rel="noopener">豆瓣电影 Top 250</a><br><a href="https://go.microsoft.com/fwlink/p/?LinkId=248256" target="_blank" rel="noopener">onedrive客户端（Windows7及以下）</a><br><a href="https://code.visualstudio.com/docs/?dv=win64" target="_blank" rel="noopener">Visual Studio Code下载</a></p>]]></content>
-      
-      
+      <tags>
+        <tag>shadowsocks</tag>
+        <tag>Google BBR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用网址查询]]></title>
+    <url>%2F2017%2F11%2F21%2F%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[校园卡转账（校园网）西农校园网自助服务系统（校园网）英语视听说网址（校园网）万有仓库代码托管平台麦田pt的ipv6网址（需要ipv6网）豆瓣电影 Top 250onedrive客户端（Windows7及以下）Visual Studio Code下载]]></content>
       <categories>
-          
-          <category> 方方说 </category>
-          
+        <category>方方说</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学校 </tag>
-            
-            <tag> 生活 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>学校</tag>
+        <tag>生活</tag>
+      </tags>
+  </entry>
 </search>
