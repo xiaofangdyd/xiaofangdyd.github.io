@@ -1,32 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[hello, Hexo]]></title>
-    <url>%2F2019%2F01%2F22%2Fhello-Hexo%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[在服务器端使用一键安装ss脚本及线路优化]]></title>
-    <url>%2F2017%2F11%2F21%2F%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96%2F</url>
-    <content type="text"><![CDATA[下载：常规版Windows客户端 ShadowsocksR版Windows客户端 安装：为了能有一个稳定的上网环境，以及某件事情的影响，萌生了想自己搭梯子的想法。最近的一个月一直在恶补这方面的知识，并自己动手实践，对shadowsocks的使用才初步入门，知道了在服务器端安装ss客户端的方法，总结下来，最为简单易用的是秋水逸冰的一键安装脚本本脚本适用于CentOS 6，7，Debian，Ubuntu系统，ss客户端对硬件资源的要求并不高，因此在选择服务器时如果没有其他需求的话，只用考虑网络带宽以及流量问题，这里需要注意的是，搭建的服务器相当于是本地访问和网站之间的桥梁，网站的数据包会先下载到服务器上，然后由服务器上传到本地客户端中，因此，服务器端使用的流量是本地流量的2倍，就好比你在购买服务器时，网站提示一个月有1000g的流量限制，当你在youtube上看500g的视频后，你的服务器端1000g流量其实已经用完了。服务器的购买并没有固定的推荐，每个地区的网络不同，运营商不同都会导致网速的差异，因此选择一个好的服务器很重要。我所在的西安电信使用digitalocean上提供的sfo的ubuntu服务器实测下载峰值可以达到2m/s，其他地区未知。购买及连接方法日后再谈，今天主要想记录下服务器的配置及优化。本文使用的是秋水逸冰的一键安装脚本，当在本地使用ssh命令（linux及mac os）或者xshell5（windows）连接上服务器的root用户后，依次运行以下3条命令。123wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.shchmod +x shadowsocks-all.sh./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log 之后脚本便自动执行，首先选择安装shadowsocks的版本，默认的1是常规，还有一个shadowsocksR版可供选择。然后脚本会提示进行shadowsocks的基本参数设置第一次是设置密码（如不设定，默认为 teddysun.com）然后是服务器端口（如不设定，默认为 8989）最后是选择加密方式（如不设定，默认为 aes-256-gcm）加密方式我一般选择为第7个 aes-256-cfb（因为其支持的客户端相对较多一点）安装完成后，脚本会提示： 12345678Congratulations, Shadowsocks-python server install completed!Your Server IP :your_server_ipYour Server Port :your_server_portYour Password :your_passwordYour Encryption Method:your_encryption_methodWelcome to visit:https://teddysun.com/342.htmlEnjoy it! 这时可以记下ip 远程端口 和密码在shadowsocks客户端上使用了。为了充分发挥服务器的网络性能，就需要对服务器的网络进行优化，最近Google 开源了其TCP BBR拥塞控制算法，并提交到了Linux内核。从4.9开始，Linux 内核已经用上了该算法。经过上机测试，有些机器的网速甚至可以提升好几个数量级。本次更新内核及开启bbr算法依旧使用的是秋水逸冰的脚本。在服务器root用户下，使用命令： --no-check-certificate&& chmod +x bbr.sh && ./bbr.sh```1234安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。重启完成后，进入 VPS，验证一下是否成功安装最新内核并开启 TCP BBR，输入以下命令：```uname -r 查看内核版本，如果显示在4.13及以上说明ok了。这时服务器端的ss已经配置优化完成，脚本默认开启了ss的开机启动，因此服务器重启也不会有影响。 卸载：在root用户下，使用命令uninstall```12345## 使用命令：启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。Shadowsocks-Python 版：```/etc/init.d/shadowsocks-python start | stop | restart | status ShadowsocksR 版：start | stop | restart | status```123Shadowsocks-Go 版：```/etc/init.d/shadowsocks-go start | stop | restart | status Shadowsocks-libev 版：start | stop | restart | status```1234各版本默认配置文件位置Shadowsocks-Python 版：```/etc/shadowsocks-python/config.json ShadowsocksR 版：123Shadowsocks-Go 版：```/etc/shadowsocks-go/config.json Shadowsocks-libev 版：1234多用户多端口配置方法在root用户下，使用命令```vi /etc/shadowsocks.json e.g:1234567891011121314&quot;server&quot;:&quot;0.0.0.0&quot;,&quot;local_address&quot;:&quot;127.0.0.1&quot;,&quot;local_port&quot;:1080,&quot;port_password&quot;:&#123;&quot;8989&quot;:&quot;password0&quot;,&quot;9001&quot;:&quot;password1&quot;,&quot;9002&quot;:&quot;password2&quot;,&quot;9003&quot;:&quot;password3&quot;,&quot;9004&quot;:&quot;password4&quot;&#125;,&quot;timeout&quot;:300,&quot;method&quot;:&quot;your_encryption_method&quot;,&quot;fast_open&quot;: false&#125; 参考链接https://teddysun.com/342.htmlhttps://teddysun.com/489.html]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>hello, Hexo</title>
+      <link href="/2019/01/22/hello-Hexo/"/>
+      <url>/2019/01/22/hello-Hexo/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>排序算法--睡眠排序、面条排序、猴子排序 (非常严肃)</title>
+      <link href="/2017/11/24/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-%E7%9D%A1%E7%9C%A0%E6%8E%92%E5%BA%8F%E3%80%81%E9%9D%A2%E6%9D%A1%E6%8E%92%E5%BA%8F%E3%80%81%E7%8C%B4%E5%AD%90%E6%8E%92%E5%BA%8F-%E9%9D%9E%E5%B8%B8%E4%B8%A5%E8%82%83/"/>
+      <url>/2017/11/24/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-%E7%9D%A1%E7%9C%A0%E6%8E%92%E5%BA%8F%E3%80%81%E9%9D%A2%E6%9D%A1%E6%8E%92%E5%BA%8F%E3%80%81%E7%8C%B4%E5%AD%90%E6%8E%92%E5%BA%8F-%E9%9D%9E%E5%B8%B8%E4%B8%A5%E8%82%83/</url>
+      
+        <content type="html"><![CDATA[<p>常见的排序算法–诸如快排、堆排或归并等——都是基于比较的，除了这种正统意义上的排序算法，最近了解了几种令人啼笑皆非的排序算法，与大家分享一下。<br><a id="more"></a></p><h2 id="1、睡眠排序（sleep-sort）"><a href="#1、睡眠排序（sleep-sort）" class="headerlink" title="1、睡眠排序（sleep sort）"></a>1、睡眠排序（sleep sort）</h2><p>这个算法可以说算是最强大的排序算法，他的时间复杂度为O(n)，空间复杂度为0 ！时间复杂度完爆了quick sort，空间复杂度完爆了hash，而且还是稳定的。<br>c代码实现如下：<br><img src="https://i.loli.net/2019/01/29/5c505b7b435cf.jpeg" alt="sleep_sort.jpeg"><br>原理主要是利用多线程，把接受的每一个参数分别放在不同的线程里面并在每个线程同时使用sleep函数，sleep的时间就是参数的值，这样的话利用“数值大的参数的线程sleep的时间更长”这个事实，数字小的值就被先打印出来了，从而达到从小到大排序的目的。简单来说就是对于[1,3,6,10]这个数组，让计算机在第1s输出1，在第3s输出3，第6s输出6，第10s输出10。<br>不过这个方法有个致命的缺点，就是如果被排序的数字很大的话，花的时间也比较多。以提供的代码为例，如果参数是3, 1, 10000的话，那么输出结果在第一秒会输出1，第三秒会输出3，但是要在10000秒时才能输出10000。为了提高速度可以按比例缩短时间，比如把sleep那句改成sleep(this/10000)，但是也不能无限制缩小时间，<strong>当睡眠时间小于开启多线程的时间时</strong>，就会出现乱序。<br>当然上面这段代码很粗略，有很多问题还没解决。比如：</p><ol><li><del>搞不定负数</del>。（可以用一个恒正的函数将输入映射成时间）</li><li><del>输入相近的数会有误差</del>。（可以乘个适当的系数，放大数据间的差）</li><li>当输入的数据很多时，这些线程不能看作是同时启动的等等。</li></ol><h2 id="2、面条排序（Spaghetti-Sort）"><a href="#2、面条排序（Spaghetti-Sort）" class="headerlink" title="2、面条排序（Spaghetti Sort）"></a>2、面条排序（Spaghetti Sort）</h2><p>意大利面条排序(Spaghetti Sort)的思路是，将输入分别对应到不同长度的面条上，每根面条的长度即为对应的数字的大小。比如，对于[1, 4, 2, 8, 9]这个输入，则分别做出长度为1cm、4cm、2cm、8cm、9cm的面条。然后，将这些面条的一头对齐，用手抓住，另一头向下。然后慢慢地将手向下垂直下降，第一个触碰到桌面的面条对应的数字则为最大的数字，第二个触碰到的就是第二大的，依次类推，代码没找到…看起来挺简单的，和睡眠排序差别不大，就不写了….</p><h2 id="3、猴子排序（Bogo-Sort）"><a href="#3、猴子排序（Bogo-Sort）" class="headerlink" title="3、猴子排序（Bogo Sort）"></a>3、猴子排序（Bogo Sort）</h2><p>如下关于猴子排序(Bogo Sort)的描述摘自维基百科：</p><blockquote><p>在计算机科学中，Bogo排序（Bogo-Sort）是个既不实用又原始的排序算法，其原理等同将一堆卡片抛起，落在桌上后检查卡片是否已整齐排列好，若非就再抛一次。其名字源自Quantum bogodynamics，又称bozo sort、blort sort或猴子排序（参见无限猴子定理）。</p></blockquote><p>所谓无限猴子定理，即是：让一只猴子在打字机上随机地按键，当按键时间达到无穷时，几乎必然能够打出任何给定的文字，比如莎士比亚的全套著作。</p><p>猴子排序也是一样，原理就是随机打乱数组，检查是否排好序，若是，则输出，否则再次打乱，再检查……最佳情况的复杂度为O(n)，平均O(n*n!)，最坏可执行到世界末日。<br>c++代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;//random需要的头文件</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">103</span>;</span><br><span class="line"><span class="keyword">int</span> n, a[maxn];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Ordered</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i + <span class="number">1</span> &lt; n; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &gt; a[i + <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++ i) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!Ordered()) &#123;</span><br><span class="line">        random_shuffle(a, a + n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++ i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; a[i] &lt;&lt; <span class="string">' '</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>所以，这种排序算法，基本大家就在吹牛的时候说说就好了，写在代码里，基本上就是分分钟被打死的后果。</p><h3 id="3-1、量子猴排-Quantum-Bogo-Sort"><a href="#3-1、量子猴排-Quantum-Bogo-Sort" class="headerlink" title="3.1、量子猴排(Quantum Bogo Sort)"></a>3.1、量子猴排(Quantum Bogo Sort)</h3><p>量子猴排可以算是概念上对猴子排序的一种优化：洗牌的时候，使用量子化随机排列。这样的话，我们在观测这组数之前，这组数的状态是叠加的，参照薛定谔的猫。通过这种量子化随机排列，我们划分出来了个平行宇宙。接下来，在某个宇宙A中，观测一下这组数，发现运气不好，没有排序好，那么我们就销毁掉这个宇宙。然后再看看其他宇宙的运气怎么样。终于，在一个宇宙Z中，发现刚好是排好序的数组。那么我们就保留这个宇宙。最后，没有被销毁的宇宙中，数组都是恰好一次被排好序的。<br><img src="https://i.loli.net/2019/01/29/5c505ba65a703.jpg" alt="量子猴排.jpg"><br>对了，量子猴排的时间复杂度是O(n)！</p>]]></content>
+      
+      
       <categories>
-        <category>tools</category>
+          
+          <category> code </category>
+          
       </categories>
-      <tags>
-        <tag>shadowsocks</tag>
-        <tag>Google BBR</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[常用网址查询]]></title>
-    <url>%2F2017%2F11%2F21%2F%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2%2F</url>
-    <content type="text"><![CDATA[校园卡转账（校园网）西农校园网自助服务系统（校园网）英语视听说网址（校园网）万有仓库代码托管平台麦田pt的ipv6网址（需要ipv6网）豆瓣电影 Top 250onedrive客户端（Windows7及以下）Visual Studio Code下载]]></content>
+      
+      
+        <tags>
+            
+            <tag> 排序算法 </tag>
+            
+            <tag> 睡眠排序 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在服务器端使用一键安装ss脚本及线路优化</title>
+      <link href="/2017/11/21/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96/"/>
+      <url>/2017/11/21/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85ss%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%BA%BF%E8%B7%AF%E4%BC%98%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<h2 id="下载："><a href="#下载：" class="headerlink" title="下载："></a>下载：</h2><p><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">常规版Windows客户端</a></p><p><a href="https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases" target="_blank" rel="noopener">ShadowsocksR版Windows客户端</a></p><h2 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h2><p>为了能有一个稳定的上网环境，以及某件事情的影响，萌生了想自己搭梯子的想法。最近的一个月一直在恶补这方面的知识，并自己动手实践，对shadowsocks的使用才初步入门，知道了在服务器端安装ss客户端的方法，总结下来，最为简单易用的是秋水逸冰的一键安装脚本<br><a id="more"></a><br>本脚本适用于CentOS 6，7，Debian，Ubuntu系统，ss客户端对硬件资源的要求并不高，因此在选择服务器时如果没有其他需求的话，只用考虑网络带宽以及流量问题，这里需要注意的是，搭建的服务器相当于是本地访问和网站之间的桥梁，网站的数据包会先下载到服务器上，然后由服务器上传到本地客户端中，因此，<strong>服务器端使用的流量是本地流量的2倍</strong>，就好比你在购买服务器时，网站提示一个月有1000g的流量限制，当你在youtube上看500g的视频后，你的服务器端1000g流量其实已经用完了。<br>服务器的购买并没有固定的推荐，每个地区的网络不同，运营商不同都会导致网速的差异，因此选择一个好的服务器很重要。我所在的西安电信使用digitalocean上提供的sfo的ubuntu服务器实测下载峰值可以达到2m/s，其他地区未知。购买及连接方法日后再谈，今天主要想记录下服务器的配置及优化。<br>本文使用的是秋水逸冰的一键安装脚本，当在本地使用ssh命令（linux及mac os）或者xshell5（windows）连接上服务器的root用户后，依次运行以下3条命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line">chmod +x shadowsocks-all.sh</span><br><span class="line">./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</span><br></pre></td></tr></table></figure></p><p>之后脚本便自动执行，首先选择安装shadowsocks的版本，默认的1是常规，还有一个shadowsocksR版可供选择。<br>然后脚本会提示进行shadowsocks的基本参数设置<br>第一次是设置密码（如不设定，默认为 teddysun.com）<br>然后是服务器端口（如不设定，默认为 8989）<br>最后是选择加密方式（如不设定，默认为 aes-256-gcm）<br>加密方式我一般选择为第7个 aes-256-cfb（因为其支持的客户端相对较多一点）<br>安装完成后，脚本会提示：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations, Shadowsocks-python server install completed!</span><br><span class="line">Your Server IP :your_server_ip</span><br><span class="line">Your Server Port :your_server_port</span><br><span class="line">Your Password :your_password</span><br><span class="line">Your Encryption Method:your_encryption_method</span><br><span class="line"></span><br><span class="line">Welcome to visit:https://teddysun.com/342.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure><p>这时可以记下ip 远程端口 和密码在shadowsocks客户端上使用了。<br>为了充分发挥服务器的网络性能，就需要对服务器的网络进行优化，最近Google 开源了其TCP BBR拥塞控制算法，并提交到了Linux内核。从4.9开始，Linux 内核已经用上了该算法。经过上机测试，有些机器的网速甚至可以提升好几个数量级。本次更新内核及开启bbr算法依旧使用的是秋水逸冰的脚本。<br>在服务器root用户下，使用命令：</p><figure class="highlight plain"><figcaption><span>--no-check-certificate</span><a href="https://github.com/teddysun/across/raw/master/bbr.sh" target="_blank" rel="noopener">&& chmod +x bbr.sh && ./bbr.sh```</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。</span><br><span class="line">重启完成后，进入 VPS，验证一下是否成功安装最新内核并开启 TCP BBR，输入以下命令：</span><br><span class="line">```uname -r</span><br></pre></td></tr></table></figure><p>查看内核版本，如果显示在4.13及以上说明ok了。这时服务器端的ss已经配置优化完成，<strong>脚本默认开启了ss的开机启动</strong>，因此服务器重启也不会有影响。</p><h2 id="卸载："><a href="#卸载：" class="headerlink" title="卸载："></a>卸载：</h2><p>在root用户下，使用命令<br><figure class="highlight plain"><figcaption><span>uninstall```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 使用命令：</span><br><span class="line">启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。</span><br><span class="line">Shadowsocks-Python 版：</span><br><span class="line">```/etc/init.d/shadowsocks-python start | stop | restart | status</span><br></pre></td></tr></table></figure></p><p>ShadowsocksR 版：<br><figure class="highlight plain"><figcaption><span>start | stop | restart | status```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Shadowsocks-Go 版：</span><br><span class="line">```/etc/init.d/shadowsocks-go start | stop | restart | status</span><br></pre></td></tr></table></figure></p><p>Shadowsocks-libev 版：<br><figure class="highlight plain"><figcaption><span>start | stop | restart | status```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">各版本默认配置文件位置</span><br><span class="line">Shadowsocks-Python 版：</span><br><span class="line">```/etc/shadowsocks-python/config.json</span><br></pre></td></tr></table></figure></p><p>ShadowsocksR 版：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Shadowsocks-Go 版：</span><br><span class="line">```/etc/shadowsocks-go/config.json</span><br></pre></td></tr></table></figure></p><p>Shadowsocks-libev 版：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">多用户多端口配置方法</span><br><span class="line">在root用户下，使用命令</span><br><span class="line">```vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure></p><p>e.g:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;port_password&quot;:&#123;</span><br><span class="line">&quot;8989&quot;:&quot;password0&quot;,</span><br><span class="line">&quot;9001&quot;:&quot;password1&quot;,</span><br><span class="line">&quot;9002&quot;:&quot;password2&quot;,</span><br><span class="line">&quot;9003&quot;:&quot;password3&quot;,</span><br><span class="line">&quot;9004&quot;:&quot;password4&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;your_encryption_method&quot;,</span><br><span class="line">&quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://teddysun.com/342.html" target="_blank" rel="noopener">https://teddysun.com/342.html</a><br><a href="https://teddysun.com/489.html" target="_blank" rel="noopener">https://teddysun.com/489.html</a></p>]]></content>
+      
+      
       <categories>
-        <category>方方说</category>
+          
+          <category> tools </category>
+          
       </categories>
-      <tags>
-        <tag>学校</tag>
-        <tag>生活</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> shadowsocks </tag>
+            
+            <tag> Google BBR </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>常用网址查询</title>
+      <link href="/2017/11/21/%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2/"/>
+      <url>/2017/11/21/%E5%B8%B8%E7%94%A8%E7%BD%91%E5%9D%80%E6%9F%A5%E8%AF%A2/</url>
+      
+        <content type="html"><![CDATA[<p><a href="http://210.27.80.195:8001/" target="_blank" rel="noopener">校园卡转账（校园网）</a><br><a href="http://aaa2.nwsuaf.edu.cn:8080/selfservice/" target="_blank" rel="noopener">西农校园网自助服务系统（校园网）</a><br><a href="http://219.245.196.72" target="_blank" rel="noopener">英语视听说网址（校园网）</a><br><a href="https://odv.xiaofangdyd.cn" target="_blank" rel="noopener">万有仓库</a><br><a href="http://code.xiaofangdyd.cn/" target="_blank" rel="noopener">代码托管平台</a><br><a href="http://pt.nwsuaf6.edu.cn/index.php" target="_blank" rel="noopener">麦田pt的ipv6网址（需要ipv6网）</a><br><a href="https://movie.douban.com/top250" target="_blank" rel="noopener">豆瓣电影 Top 250</a><br><a href="https://go.microsoft.com/fwlink/p/?LinkId=248256" target="_blank" rel="noopener">onedrive客户端（Windows7及以下）</a><br><a href="https://code.visualstudio.com/docs/?dv=win64" target="_blank" rel="noopener">Visual Studio Code下载</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 方方说 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学校 </tag>
+            
+            <tag> 生活 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
