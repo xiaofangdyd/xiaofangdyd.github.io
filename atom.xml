@@ -31,6 +31,56 @@
   </entry>
   
   <entry>
+    <title>在ubuntu16.04的vps上安装搭建ftp</title>
+    <link href="http://yoursite.com/2017/12/02/%E5%9C%A8ubuntu16-04%E7%9A%84vps%E4%B8%8A%E5%AE%89%E8%A3%85%E6%90%AD%E5%BB%BAftp/"/>
+    <id>http://yoursite.com/2017/12/02/在ubuntu16-04的vps上安装搭建ftp/</id>
+    <published>2017-12-01T17:01:46.000Z</published>
+    <updated>2019-01-29T14:04:35.860Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于身边设备包含种类过多，有Windows、Ubuntu、Android、iOS，有时候想要在四台设备间同步ppt，pdf，或者在Windows和Ubuntu上切换编译环境时用u盘拷贝文件步骤过于繁琐，且现有的一台服务器还没能充分利用资源，便萌生了在vps上再搭建一个ftp服务器的想法。<br>我对于ftp服务器的要求就是：有一定安全性，禁止匿名访问，尽量走加密通道传输，使用账户密码登录<br>然而百度上的教程经过我的测试大都不靠谱，于是自己Google摸索了一晚，找到了适合自己的搭建ftp的方法，在此分享并作为自己的备份。<br><a id="more"></a></p><h2 id="1、安装vsftpd软件"><a href="#1、安装vsftpd软件" class="headerlink" title="1、安装vsftpd软件"></a>1、安装vsftpd软件</h2><p>流行的FTP服务器端软件有：PureFTP，vsftpd,ProFTPD。考虑到租的服务器性能不高，我采用了轻量并且坑少的vsftpd。命令如下：<br><code>sudo apt update<br>sudo apt install vsftpd</code><br>安装完成后，需要对其进行一定的设置来使用。<br><figure class="highlight plain"><figcaption><span>vi</span><a href="/etc/vsftpd.conf```">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">取消下列行首的#注释</span><br><span class="line">```write_enable=YES```（允许用户在ftp中的写入操作）</span><br><span class="line">```local_umask=022```（为用户增加相应的读写权限）</span><br><span class="line">```chroot_local_user=yes```（阻止访问除了用户文件夹意外的文件夹）</span><br><span class="line">在文件的末尾添加下列语句来开启消极模式：</span><br><span class="line">&lt;code&gt;</span><br><span class="line">allow_writeable_chroot=YES</span><br><span class="line">pasv_enable-YES</span><br><span class="line">pasv_min_port=40000</span><br><span class="line">pasv_max_port=40100&lt;/code&gt;</span><br><span class="line">之后保存退出编辑，重启vsftpd服务</span><br><span class="line">```service vsftpd restart</span><br></pre></td></tr></table></figure></p><p>这时，ftp服务器就可以使用了，但是在21端口使用ftp登录是非常危险的，即使使用了账户密码，但传输文件很容易会被劫持，因此我在Google之后选择使用更为安全的sftp。</p><h2 id="2、安装配置sftp"><a href="#2、安装配置sftp" class="headerlink" title="2、安装配置sftp"></a>2、安装配置sftp</h2><p>sftp使用的是ssh文件传输协议，需要安装openssh-server,一般的vps服务器都预先安装过。安装过就可以跳过这一步。安装命令如下：<br><figure class="highlight plain"><figcaption><span>apt install openssh-server```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">安装完成之后我们需要为ftp新建一个用户。</span><br><span class="line">为了以后可能会添加用户，这里就创建一个ftpaccess用户组。</span><br><span class="line">```sudo groupadd ftpaccess</span><br></pre></td></tr></table></figure></p><p>然后需要在/etc/ssh/sshd_config中修改一些参数。<br><figure class="highlight plain"><figcaption><span>vi</span><a href="/etc/ssh/sshd_config```">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">找到 **PasswordAuthentication**参数，若其=no，则将其注释掉，若为yes，就不用管。</span><br><span class="line">找到 **Subsystem sftp /usr/lib/openssh/sftp-server**将其注释掉。</span><br><span class="line">在文件最后添加下列语句：</span><br><span class="line">&lt;code&gt;Subsystem sftp internal-sftp</span><br><span class="line">Match group ftpaccess</span><br><span class="line">ChrootDirectory %h</span><br><span class="line">X11Forwarding no</span><br><span class="line">AllowTcpForwarding no</span><br><span class="line">ForceCommand internal-sftp</span><br><span class="line">&lt;/code&gt;</span><br><span class="line">之后重启ssh服务</span><br><span class="line">```service ssh restart</span><br></pre></td></tr></table></figure></p><p>下面开始创建访问sftp服务的用户<br>创建用户xiaofangdyd,属于ftpaccess组<br><code>sudo useradd -m xiaofangdyd -g ftpaccess -s /usr/bin/nologin</code><br>(其中使用/usr/bin/nologin脚本来阻止ftp用户访问bash脚本，增加安全性)<br><code>sudo passwd xiaofangdyd</code><br>(设置密码)<br><code>sudo chown root /home/xiaofangdyd</code><br>(为相应文件夹赋予root权限)</p><p>开启nologin脚本的开机访问<br><code>sudo vi /etc/shells</code></p><p>在最后添加如下行：<br><code>/usr/bin/nologin</code></p><p>最后在home文件夹创建一个用于下入文件的文件夹，并修改文件夹的所有者<br><code>mkdir /home/xiaofangdyd/files<br>sudo chown xiaofangdyd:ftpaccess /home/xiaofangdyd/files</code></p><p>现在就可以通过sftp来向files文件夹上传并下载文件了。</p><p>在Windows和Linux操作端，推荐使用<strong>filezilla客户端版</strong>（filezilla Client）对ftp服务器进行访问。因为首先fz提供了对sftp登录的支持，最重要的是，由于简体中文版的Windows系统因为国家规定使用的是GBK字符编码，在ubuntu服务器以及linux上，默认使用的是utf-8全球通用编码，编码不同会导致中文文件名乱码。因此需要在fz中开启强制使用utf-8编码，才能保证文件之间的稳定传输。<br>在iOS上，我使用的是FtpManager，同样使用sftp登录，强制使用utf-8字符编码。<br>在Android上,我使用的是AndFTP，设置同上。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于身边设备包含种类过多，有Windows、Ubuntu、Android、iOS，有时候想要在四台设备间同步ppt，pdf，或者在Windows和Ubuntu上切换编译环境时用u盘拷贝文件步骤过于繁琐，且现有的一台服务器还没能充分利用资源，便萌生了在vps上再搭建一个ftp服务器的想法。&lt;br&gt;我对于ftp服务器的要求就是：有一定安全性，禁止匿名访问，尽量走加密通道传输，使用账户密码登录&lt;br&gt;然而百度上的教程经过我的测试大都不靠谱，于是自己Google摸索了一晚，找到了适合自己的搭建ftp的方法，在此分享并作为自己的备份。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="tools" scheme="http://yoursite.com/categories/tools/"/>
+    
+    
+      <category term="ftp" scheme="http://yoursite.com/tags/ftp/"/>
+    
+      <category term="ubuntu" scheme="http://yoursite.com/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2017.11.26今天要考线代</title>
+    <link href="http://yoursite.com/2017/11/26/2017-11-26%E4%BB%8A%E5%A4%A9%E8%A6%81%E8%80%83%E7%BA%BF%E4%BB%A3/"/>
+    <id>http://yoursite.com/2017/11/26/2017-11-26今天要考线代/</id>
+    <published>2017-11-25T17:36:29.000Z</published>
+    <updated>2019-01-29T14:02:14.493Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天是星期六，心中怀揣着对线性代数的恐惧和室友泡了一天的图书馆……下午一个人出来的时候突然觉得好冷，好像每次从图书馆走出来都是这样的吧。</p><p>吃完饭回图书馆之前，溜去校外买了一杯抹茶，旁边的小女孩看着我和大人说：“他在一个人买奶茶。”瞬间觉得抹茶好苦啊。</p><p>可能每个人一生中都会有那么一段，需要一个人度过的时光，在这段时光里，我们会学会与自己相处，去了解自己，认识自己，认识这个世界。</p><a id="more"></a><p>路上看到夕阳和一棵树共同构成了一幅异常和谐的场面，兴高采烈想要分享出去，打好了字配好了图，在打算发送状态的那一刻，又退出了状态发送。就当没看到过这棵树吧。</p><p>走在路上发现，听歌时没谁可想，空空落落的，也不是件好事。</p><p>现在想想，为什么上了大学，人们开始拼命寻找恋人，拉帮结派，还不是因为大家都孤独。</p><p>我走到阳台，吸着雾霾看天。<br>繁星漫天，远处零散的几处霓虹灯。<br>我想着自己，突然有点想哭。<br>又过了一会，一阵风吹来。<br>吹来一大片云，关掉了天上的星灯。<br>学校的路灯早已熄灭，漆黑的夜里更加漆黑。<br>也许它认为城市应该睡觉了，但是我还醒着。<br><img src="https://i.loli.net/2019/01/29/5c505cd732b7e.gif" alt="alone.gif"></p><p>在微博上看到这张图片，刚开始觉得这真是一个热爱生活自娱自乐的狗子。<br>但细想这不就是孤独吗，一个人扮演两个人角色。<br>现实有很多人跟这只狗狗一样，狗狗表现在肢体，我们表演在内心。</p><p>站在汹涌的人群中，看着人家两人嬉闹打笑。<br>我捂着嘴巴看完，生怕发出一声狗叫。<br>窗内灯光柔软 爱意浓浓， 窗外寒风凌厉，形单影只。<br>外面太冷了，衣服有点单薄，我想回家了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨天是星期六，心中怀揣着对线性代数的恐惧和室友泡了一天的图书馆……下午一个人出来的时候突然觉得好冷，好像每次从图书馆走出来都是这样的吧。&lt;/p&gt;
+&lt;p&gt;吃完饭回图书馆之前，溜去校外买了一杯抹茶，旁边的小女孩看着我和大人说：“他在一个人买奶茶。”瞬间觉得抹茶好苦啊。&lt;/p&gt;
+&lt;p&gt;可能每个人一生中都会有那么一段，需要一个人度过的时光，在这段时光里，我们会学会与自己相处，去了解自己，认识自己，认识这个世界。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="方方说" scheme="http://yoursite.com/categories/%E6%96%B9%E6%96%B9%E8%AF%B4/"/>
+    
+    
+      <category term="线性代数" scheme="http://yoursite.com/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
+    
+      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
     <title>排序算法--睡眠排序、面条排序、猴子排序 (非常严肃)</title>
     <link href="http://yoursite.com/2017/11/24/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-%E7%9D%A1%E7%9C%A0%E6%8E%92%E5%BA%8F%E3%80%81%E9%9D%A2%E6%9D%A1%E6%8E%92%E5%BA%8F%E3%80%81%E7%8C%B4%E5%AD%90%E6%8E%92%E5%BA%8F-%E9%9D%9E%E5%B8%B8%E4%B8%A5%E8%82%83/"/>
     <id>http://yoursite.com/2017/11/24/排序算法-睡眠排序、面条排序、猴子排序-非常严肃/</id>
