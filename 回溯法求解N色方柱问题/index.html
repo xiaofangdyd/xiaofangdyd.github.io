@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '94PU0YS3TU',
+      apiKey: 'a8800c35ee2ecc073677fa8b7476a665',
+      indexName: 'hexo_search',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="问题简介设有n立方体，每个立方体的每个面用红、黄、蓝、绿等n种颜色之一染色。要把这n个立方体叠成一个方形柱体，使得柱体的4个侧面的每一侧均有n种不同的颜色。试设计一个回溯算法，计算出n个立方体的一种满足要求的叠置方案。">
+<meta name="keywords" content="算法,N色方柱">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回溯法求解N色方柱问题">
+<meta property="og:url" content="http://yoursite.com/回溯法求解N色方柱问题/index.html">
+<meta property="og:site_name" content="万有笔记">
+<meta property="og:description" content="问题简介设有n立方体，每个立方体的每个面用红、黄、蓝、绿等n种颜色之一染色。要把这n个立方体叠成一个方形柱体，使得柱体的4个侧面的每一侧均有n种不同的颜色。试设计一个回溯算法，计算出n个立方体的一种满足要求的叠置方案。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/1.jpg">
+<meta property="og:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/2.jpg">
+<meta property="og:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/3.jpg">
+<meta property="og:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/4.jpg">
+<meta property="og:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/5.jpg">
+<meta property="og:updated_time" content="2019-01-30T09:33:51.944Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回溯法求解N色方柱问题">
+<meta name="twitter:description" content="问题简介设有n立方体，每个立方体的每个面用红、黄、蓝、绿等n种颜色之一染色。要把这n个立方体叠成一个方形柱体，使得柱体的4个侧面的每一侧均有n种不同的颜色。试设计一个回溯算法，计算出n个立方体的一种满足要求的叠置方案。">
+<meta name="twitter:image" content="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/1.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="万有笔记" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/回溯法求解N色方柱问题/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>回溯法求解N色方柱问题 | 万有笔记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/xiaofangdyd" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">万有笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">诸事皆宜，百无禁忌</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/回溯法求解N色方柱问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Fanghl">
+      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
+      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="万有笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">回溯法求解N色方柱问题
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+        
+          
+
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-17 11:57:55" itemprop="dateCreated datePublished" datetime="2019-01-17T11:57:55+08:00">2019-01-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 17:33:51" itemprop="dateModified" datetime="2019-01-30T17:33:51+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h2><p>设有n立方体，每个立方体的每个面用红、黄、蓝、绿等n种颜色之一染色。要把这n个立方体叠成一个方形柱体，使得柱体的4个侧面的每一侧均有n种不同的颜色。试设计一个回溯算法，计算出n个立方体的一种满足要求的叠置方案。<br><a id="more"></a><br>例如：第一行有1个正整数n，0&lt;n&lt;27，表示给定的立方体个数和颜色数均为n。第2行是n个大写字母组成的字符串。该字符串的第k（0&lt;=k&lt;n）个字符代表第k种颜色。接下来的n行中，每行有6个数，表示立方体各面的颜色。立方体各面的编号如图所示：</p>
+<p><center class="half"><br>    <img src="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/1.jpg"><br>    <img src="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/2.jpg"><br></center><br>上图中F表示前面，B表示背面，L表示左面，R表示右面，T表示顶面，D表示底面。相应的2表示前面，3表示背面，0表示左面，1表示右面，5表示顶面，4表示底面。<br>结果输出：将计算的ｎ个立方体的一种可行的叠置方案输出到文件output.txt。每行6个字符，表示立方体个面的颜色。如果不存在所要求的叠置方案，输出“No Solution”</p>
+<h2 id="输入输出规范"><a href="#输入输出规范" class="headerlink" title="输入输出规范"></a>输入输出规范</h2><p>输入格式：n色方柱.txt:<br>4<br>R G B Y<br>0 2 1 3 0 0<br>3 0 2 1 0 1<br>2 1 0 2 1 3<br>1 3 3 0 2 2</p>
+<p>输出格式：solution.txt:</p>
+<p>第1种立方体叠置方案为：<br>R B G Y R R<br>Y R B G R G<br>B G R B G Y<br>G Y Y R B B<br>第2种立方体叠置方案为：<br>G Y R B R R<br>B G Y R R G<br>R B B G G Y<br>Y R G Y B B<br>完成，共找到2种叠置方案。</p>
+<h2 id="算法策略"><a href="#算法策略" class="headerlink" title="算法策略"></a>算法策略</h2><p>事实上，N色方柱问题的解题思路很像N皇后问题的回溯算法思路，N皇后的要求是每放置一个皇后，使得已放置的皇后之间不能相互攻击。N色方柱的思路就是每放置一个立方体，使得已放置好的立方体柱四个侧面中每个侧面的颜色不重复。</p>
+<p>首先已知两点：</p>
+<ol>
+<li>一个立方体如果标记好相邻两个面，则能推导出所有面的标记。</li>
+<li>立方体中相对的两个面永远固定。（比如：一个立方体前面为蓝色，后面为红色，则无论其怎么旋转，蓝色面和红色面永远是相对的）</li>
+</ol>
+<p>由此，对每个涂完颜色的小立方体而言，一共有三组相对的面（前-后、左-右、上-下），而所需求解的立方体柱，只需要保证摆放完成的N个立方体，两组相对面（前-后、左-右）颜色不同即可。</p>
+<p>下面开始对问题进行抽象：对于N个小立方体，首先构建N张无向图，每个图中，将N种颜色作为N个顶点，将三组相对面的颜色的顶点连成一条边，如图所示。</p>
+<p><img src="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/3.jpg"></p>
+<p>然后，将上述N个无向图合并，并标明每一条边来自哪个立方体，如图所示。</p>
+<p><img src="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/4.jpg" height="150"></p>
+<p>下一步在构成的无向图中，找出两个特殊子图。一个图表示叠置的N个立方体的前面和背面，另一个图表示叠置的N个立方体的左面与右面。同时构建子图时应满足三个性质：</p>
+<ol>
+<li>每个子图有n条边，且每个立方体恰好一条边。</li>
+<li>2个子图没有公共边。</li>
+<li>子图中每个顶点的度均为2。</li>
+</ol>
+<p>对于图中的无向图，找出满足要求的两个子图如图所示。</p>
+<p><img src="https://cdn.xiaofangdyd.cn/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3N%E8%89%B2%E6%96%B9%E6%9F%B1/5.jpg" height="150/"></p>
+<p>对图3中的两个子图，给定每条边一个方向，要求：<strong>每个顶点刚好有一个入度和一个出度。</strong></p>
+<p>至此，抽象求解完成，再根据构建的两个有向子图，映射出对应的立方体每个面的颜色。人为规定有向边的始点对应于堆叠完成的N个立方体的前面和左面，有向边的终点对应于堆叠完成的N个立方体的后面和右面。映射出的解如表。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>F(前面)</th>
+<th>B(后面)</th>
+<th>L(左面)</th>
+<th>R(右面)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cube1</td>
+<td>R</td>
+<td>B</td>
+<td>G</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Cube2</td>
+<td>Y</td>
+<td>R</td>
+<td>B</td>
+<td>G</td>
+</tr>
+<tr>
+<td>Cube3</td>
+<td>B</td>
+<td>G</td>
+<td>R</td>
+<td>B</td>
+</tr>
+<tr>
+<td>Cube4</td>
+<td>G</td>
+<td>Y</td>
+<td>Y</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<p>上述算法的关键是找到符合要求的两个子图，可以使用回溯法，类似于N皇后问题的求解思路。</p>
+<h2 id="数据结构选定"><a href="#数据结构选定" class="headerlink" title="数据结构选定"></a>数据结构选定</h2><p>对于输入的立方体颜色，使用board[N][6]二维数组进行存储，用color[N]一维数组存储颜色信息，对于构建好的子图，使用一个描述边的二维数组side[2][N]表示。其中有2行，一行描述一个子图，每一行中有N列，第N列表示第N个立方体选取的边的信息（一个立方体只能存在3组边，因此边的取值为0、1、2）。设定一个二维数组point[2][N]存储两个子图每条边的度（取值只能为0、1，不能超过2）。</p>
+<p>在将子图转换为输出时，使用result[n][6]存储输出立方体的颜色信息（取值为0-n），used[n]存储边的使用情况（取值为0、1）。</p>
+<h2 id="求解步骤"><a href="#求解步骤" class="headerlink" title="求解步骤"></a>求解步骤</h2><ol>
+<li><p>定义问题的解空间</p>
+<p>由问题理解可得，N色方柱问题的解空间为：一个可以存储两个子图的数据结构。在本题中为side[2][N]的二维数组（取值为0、1、2）</p>
+</li>
+<li><p>确定解空间的组织结构</p>
+<p>确定显约束：每个子图有N条边且每个立方体提供一条边</p>
+</li>
+<li><p>搜索解空间</p>
+<p>确定约束条件：每个子图有N条边且每个立方体提供一条边</p>
+<p>确定限界条件：两个子图不存在公共边且构建完成后子图中每个顶点的度为2</p>
+</li>
+</ol>
+<p>使用全局变量board[N][6]存储立方体每个面的颜色信息，在回溯算法中，使用局部变量cube表示当前搜索的立方体，zitu表示当前构建的子图。使用point[2][N]记录两个子图中N个顶点的度（小于2），使用side[2][N]记录两个子图中选用的N个立方体的边的信息。首先遍历当前cube的side信息，找一条未使用过的边，若未找到，证明当前cube所有情况已经回溯完成，需要回溯到上一个cube寻找。若找到，接着将这条边对应的子图中的两个顶点的度分别加1，然后判断顶点的度是否大于2，若大于2，说明当前的cube的选边不合理，需要回溯重选；若小于2，再判断当前子图是否完成，若完成，开始查找下一个子图或输出结果，若未完成，则进入下一个cube继续搜索。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          
+            <a href="/tags/N色方柱/" rel="tag"><i class="fa fa-tag"></i> N色方柱</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Biojava的安装与调试（Maven-idea）/" rel="next" title="Biojava的安装与调试（Maven+idea）">
+                <i class="fa fa-chevron-left"></i> Biojava的安装与调试（Maven+idea）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/hello-Hexo/" rel="prev" title="hello, Hexo">
+                hello, Hexo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg" alt="Mr.Fanghl">
+            
+              <p class="site-author-name" itemprop="name">Mr.Fanghl</p>
+              <p class="site-description motion-element" itemprop="description">做个好市民，酒色财气样样精通</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/xiaofangdyd" title="GitHub &rarr; https://github.com/xiaofangdyd" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:Mr.fanghl@gmail.com" title="E-Mail &rarr; mailto:Mr.fanghl@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/xiaofangdyd" title="Weibo &rarr; https://weibo.com/xiaofangdyd" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/xiaofangdyd" title="知乎 &rarr; https://www.zhihu.com/people/xiaofangdyd" rel="noopener" target="_blank"><i class="fa fa-fw fa-gratipay"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题简介"><span class="nav-number">1.</span> <span class="nav-text">问题简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出规范"><span class="nav-number">2.</span> <span class="nav-text">输入输出规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法策略"><span class="nav-number">3.</span> <span class="nav-text">算法策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构选定"><span class="nav-number">4.</span> <span class="nav-text">数据结构选定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解步骤"><span class="nav-number">5.</span> <span class="nav-text">求解步骤</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备18010525号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Fanghl</span>
+
+<!--
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">62k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">1:43</span>
+  
+-->
+</div>
+
+
+
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      访问用户:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+
+  <!-- <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+ -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+  <div class="powered-by">
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+      访问量:<span id="busuanzi_value_site_pv"></span>
+    </span>
+  </div>
+
+  <!-- <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a></div>
+-->
+
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+  <div class="powered-by">
+    <i class="fa fa-pencil"></i>
+      <span class="post-count">博客全站共31.7k字</span>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
