@@ -3,7 +3,13 @@
   <entry>
     <title><![CDATA[hello, Hexo]]></title>
     <url>%2Fhello-Hexo%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[寒假在家，用了一周时间，将博客又搬到了GitHub上，把typecho换成了对markdown支持更好的hexo，然后在搬文章的时候，顺手把所有的图片都托管到七牛云上，解决图片加载慢的问题。 设置DNS解析，国内用户解析到coding，国际用户解析到GitHub，达到加速的目的。]]></content>
+      <categories>
+        <category>tools</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[回溯法求解N色方柱问题]]></title>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-01-22T03:59:26.066Z</updated>
+  <updated>2019-01-30T09:54:50.709Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,12 +21,25 @@
     <link href="http://yoursite.com/hello-Hexo/"/>
     <id>http://yoursite.com/hello-Hexo/</id>
     <published>2019-01-22T03:59:26.000Z</published>
-    <updated>2019-01-22T03:59:26.066Z</updated>
+    <updated>2019-01-30T09:54:50.709Z</updated>
+    
+    <content type="html"><![CDATA[<p>寒假在家，用了一周时间，将博客又搬到了GitHub上，把typecho换成了对markdown支持更好的hexo，然后在搬文章的时候，顺手把所有的图片都托管到七牛云上，解决图片加载慢的问题。</p><ul><li>设置DNS解析，国内用户解析到coding，国际用户解析到GitHub，达到加速的目的。</li></ul>]]></content>
     
     <summary type="html">
     
+      
+      
+        &lt;p&gt;寒假在家，用了一周时间，将博客又搬到了GitHub上，把typecho换成了对markdown支持更好的hexo，然后在搬文章的时候，顺手把所有的图片都托管到七牛云上，解决图片加载慢的问题。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置DNS解析，国内用户解析到coding，国际用户解析
+      
+    
     </summary>
     
+      <category term="tools" scheme="http://yoursite.com/categories/tools/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
     
   </entry>
   
