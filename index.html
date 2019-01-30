@@ -389,7 +389,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/21/常用网址查询/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/常用网址查询/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -409,7 +409,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/11/21/常用网址查询/" class="post-title-link" itemprop="url">常用网址查询</a>
+                <a href="/常用网址查询/" class="post-title-link" itemprop="url">常用网址查询</a>
               
             
           </h2>
@@ -597,7 +597,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/22/hello-Hexo/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/hello-Hexo/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -617,7 +617,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/01/22/hello-Hexo/" class="post-title-link" itemprop="url">hello, Hexo</a>
+                <a href="/hello-Hexo/" class="post-title-link" itemprop="url">hello, Hexo</a>
               
             
           </h2>
@@ -766,7 +766,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/25/同步和异步，阻塞和非阻塞/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/简单工厂模式（Simple-Factory）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -786,7 +786,744 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/25/同步和异步，阻塞和非阻塞/" class="post-title-link" itemprop="url">同步和异步，阻塞和非阻塞</a>
+                <a href="/简单工厂模式（Simple-Factory）/" class="post-title-link" itemprop="url">简单工厂模式（Simple Factory）</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+        
+          
+
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-30 22:32:41" itemprop="dateCreated datePublished" datetime="2018-03-30T22:32:41+08:00">2018-03-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 11:54:38" itemprop="dateModified" datetime="2019-01-30T11:54:38+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/OOAD/" itemprop="url" rel="index"><span itemprop="name">OOAD</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h2 id="一、-前言"><a href="#一、-前言" class="headerlink" title="一、 前言"></a>一、 前言</h2><p>工厂模式主要是为创建对象提供过度接口，以便将创建对象的具体过程隔离屏蔽起来，达到提高灵活性的目的。</p>
+<p>工厂模式可以分为三类：<strong>简单工厂模式（Simple Factory）、工厂方法模式（Factory Method）、抽象工厂模式（Abstract Factory）。</strong>这三种模式从前到后逐步抽象，并且更具一般性。</p>
+<p>本文会简单概述开发中最常用的设计模式 - 简单工厂模式。</p>
+<blockquote>
+<p>在阅读下文前强烈建议先阅读<br>[<strong>设计模式简介</strong>][1]</p>
+</blockquote>
+<h2 id="二、含义"><a href="#二、含义" class="headerlink" title="二、含义"></a>二、含义</h2><p>简单工厂模式又称静态工厂方法模式（因为工厂类定义了一个静态方法）。在现实生活中，工厂是负责生产产品的；同样在设计模式中，简单工厂模式我们可以理解为负责生产对象的一个类，称为“工厂类”。</p>
+<p>它存在的目的很简单：<strong>定义一个用于创建对象的接口。</strong></p>
+<h2 id="三、解决的问题"><a href="#三、解决的问题" class="headerlink" title="三、解决的问题"></a>三、解决的问题</h2><p>将“类实例化的操作”与“使用对象的操作”分开，让使用者不用知道具体参数就可以实例化出所需要的“产品”类，从而避免了在客户端代码中显式指定，实现了解耦。<br><strong>即使用者可直接消费产品而不需要知道其生产的细节</strong></p>
+<h2 id="四、-模式原理"><a href="#四、-模式原理" class="headerlink" title="四、 模式原理"></a>四、 模式原理</h2><h3 id="1-模式组成"><a href="#1-模式组成" class="headerlink" title="1. 模式组成"></a>1. 模式组成</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">组成（角色）</th>
+<th style="text-align:left">关系</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">抽象产品（Product）</td>
+<td style="text-align:left">具体产品的父类</td>
+<td style="text-align:left">描述产品的公共接口</td>
+</tr>
+<tr>
+<td style="text-align:left">具体产品（Concrete Product）</td>
+<td style="text-align:left">抽象产品的子类；工厂类创建的目标类</td>
+<td style="text-align:left">描述生产的具体产品</td>
+</tr>
+<tr>
+<td style="text-align:left">工厂（Creator）</td>
+<td style="text-align:left">被外界调用</td>
+<td style="text-align:left">根据传入不同参数从而创建不同具体产品类的实例</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-UML类图"><a href="#2-UML类图" class="headerlink" title="2. UML类图"></a>2. UML类图</h3><p><img src="https://cdn.xiaofangdyd.cn/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.png" alt="UML类图.png"></p>
+<h3 id="3-使用步骤"><a href="#3-使用步骤" class="headerlink" title="3. 使用步骤"></a>3. 使用步骤</h3><ol>
+<li>创建<strong>抽象产品类</strong>&amp;定义具体产品的公共接口。</li>
+<li>创建<strong>具体产品类</strong>（继承抽象产品类） &amp; 定义生产的具体产品。</li>
+<li>创建<strong>工厂类</strong>，通过创建静态方法根据传入不同参数从而创建不同具体产品类的实例。</li>
+<li>外界通过调用工厂类的静态方法，<strong>传入不同参数</strong>从而创建不同<strong>具体产品类的实例</strong>。<h2 id="五、-实例-amp-代码"><a href="#五、-实例-amp-代码" class="headerlink" title="五、 实例&amp;代码"></a>五、 实例&amp;代码</h2><h3 id="1-基本情况"><a href="#1-基本情况" class="headerlink" title="1. 基本情况"></a>1. 基本情况</h3></li>
+</ol>
+<ul>
+<li>背景：小X有一个塑料生产厂，用来做塑料加工生意。</li>
+<li>目的：小X希望通过<strong>简单工厂模式</strong>实现3款产品的生产。<h3 id="2-使用步骤"><a href="#2-使用步骤" class="headerlink" title="2. 使用步骤"></a>2. 使用步骤</h3><h4 id="1-创建抽象产品类，定义具体产品的公共接口"><a href="#1-创建抽象产品类，定义具体产品的公共接口" class="headerlink" title="(1) 创建抽象产品类，定义具体产品的公共接口"></a>(1) 创建抽象产品类，定义具体产品的公共接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-创建具体产品类（继承抽象产品类），定义生产的具体产品"><a href="#2-创建具体产品类（继承抽象产品类），定义生产的具体产品" class="headerlink" title="(2) 创建具体产品类（继承抽象产品类），定义生产的具体产品"></a>(2) 创建具体产品类（继承抽象产品类），定义生产的具体产品</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//具体产品类A</span></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">ProductA</span> <span class="keyword">extends</span>  <span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"生产出了产品A"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体产品类B</span></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">ProductB</span> <span class="keyword">extends</span>  <span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"生产出了产品C"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体产品类C</span></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">ProductC</span> <span class="keyword">extends</span>  <span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"生产出了产品C"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-创建工厂类，通过创建静态方法从而根据传入不同参数创建不同具体产品类的实例"><a href="#3-创建工厂类，通过创建静态方法从而根据传入不同参数创建不同具体产品类的实例" class="headerlink" title="(3) 创建工厂类，通过创建静态方法从而根据传入不同参数创建不同具体产品类的实例"></a>(3) 创建工厂类，通过创建静态方法从而根据传入不同参数创建不同具体产品类的实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Product <span class="title">Manufacture</span><span class="params">(String ProductName)</span></span>&#123;</span><br><span class="line"><span class="comment">//工厂类里用switch语句控制生产哪种商品；</span></span><br><span class="line"><span class="comment">//使用者只需要调用工厂类的静态方法就可以实现产品类的实例化。</span></span><br><span class="line">        <span class="keyword">switch</span> (ProductName)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"A"</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ProductA();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">"B"</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ProductB();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">"C"</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ProductC();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-外界通过调用工厂类的静态方法，传入不同参数从而创建不同具体产品类的实例"><a href="#4-外界通过调用工厂类的静态方法，传入不同参数从而创建不同具体产品类的实例" class="headerlink" title="(4) 外界通过调用工厂类的静态方法，传入不同参数从而创建不同具体产品类的实例"></a>(4) 外界通过调用工厂类的静态方法，传入不同参数从而创建不同具体产品类的实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂产品生产流程</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryPattern</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Factory mFactory = <span class="keyword">new</span> Factory();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//客户要产品A</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//调用工厂类的静态方法 &amp; 传入不同参数从而创建产品实例</span></span><br><span class="line">            mFactory.Manufacture(<span class="string">"A"</span>).Show();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (NullPointerException e)&#123;</span><br><span class="line">            System.out.println(<span class="string">"没有这一类产品"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//客户要产品B</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mFactory.Manufacture(<span class="string">"B"</span>).Show();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (NullPointerException e)&#123;</span><br><span class="line">            System.out.println(<span class="string">"没有这一类产品"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//客户要产品C</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mFactory.Manufacture(<span class="string">"C"</span>).Show();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (NullPointerException e)&#123;</span><br><span class="line">            System.out.println(<span class="string">"没有这一类产品"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//客户要产品D</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mFactory.Manufacture(<span class="string">"D"</span>).Show();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (NullPointerException e)&#123;</span><br><span class="line">            System.out.println(<span class="string">"没有这一类产品"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-输出结果"><a href="#5-输出结果" class="headerlink" title="(5) 输出结果"></a>(5) 输出结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">生产出了产品A</span><br><span class="line">生产出了产品B</span><br><span class="line">生产出了产品C</span><br><span class="line">没有这一类产品</span><br></pre></td></tr></table></figure>
+<h2 id="六、优缺点"><a href="#六、优缺点" class="headerlink" title="六、优缺点"></a>六、优缺点</h2><h3 id="1-优点"><a href="#1-优点" class="headerlink" title="1. 优点"></a>1. 优点</h3><ol>
+<li>将创建实例的工作与使用实例的工作分开，<strong>使用者不必关心类对象如何创建</strong>，实现了解耦。</li>
+<li>把初始化实例时的工作放到工厂里进行，使代码更容易维护。 </li>
+<li>更符合面向对象的原则。</li>
+<li><strong>面向接口编程</strong>，而不是面向实现编程。<h3 id="2-缺点"><a href="#2-缺点" class="headerlink" title="2. 缺点"></a>2. 缺点</h3></li>
+<li>工厂类集中了所有实例（产品）的创建逻辑，一旦这个工厂不能正常工作，整个系统都会受到影响。</li>
+<li>违背<strong>开放封闭原则</strong>，一旦添加新产品就不得不修改工厂类的逻辑，这样就会造成工厂逻辑过于复杂。</li>
+<li>简单工厂模式由于使用了静态工厂方法，<strong>静态方法不能被继承和重写</strong>，会造成工厂角色无法形成基于继承的等级结构。<h2 id="七、应用场景"><a href="#七、应用场景" class="headerlink" title="七、应用场景"></a>七、应用场景</h2></li>
+</ol>
+<ul>
+<li>当客户程序不需要知道要使用对象的创建过程。</li>
+<li><p>客户程序使用的对象存在变动的可能，或者根本就不知道使用哪一个具体的对象。</p>
+<p>[1]: </p></li></ul>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/设计模式简介/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Fanghl">
+      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
+      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="万有笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/设计模式简介/" class="post-title-link" itemprop="url">设计模式简介</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+        
+          
+
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-29 23:31:50" itemprop="dateCreated datePublished" datetime="2018-03-29T23:31:50+08:00">2018-03-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 11:49:49" itemprop="dateModified" datetime="2019-01-30T11:49:49+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/OOAD/" itemprop="url" rel="index"><span itemprop="name">OOAD</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h2 id="一、-定义及作用"><a href="#一、-定义及作用" class="headerlink" title="一、 定义及作用"></a>一、 定义及作用</h2><h3 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h3><p>设计模式（Design pattern）是软件开发人员在软件开发过程中<strong>面临特定问题设计的解决方案</strong>，这些解决方案是众多开发人员经过相当长一段时间的试验和错误总结出来的。</p>
+<h3 id="2-作用"><a href="#2-作用" class="headerlink" title="2. 作用"></a>2. 作用</h3><ul>
+<li>提高代码复用率，降低开发成本和周期</li>
+<li>提高代码的可靠性</li>
+<li>让代码更容易被他人理解<h2 id="二、-设计原则"><a href="#二、-设计原则" class="headerlink" title="二、 设计原则"></a>二、 设计原则</h2>在设计模式中，强调如下六大原则：<h3 id="1-开放封闭原则（Open-Close-Principle）"><a href="#1-开放封闭原则（Open-Close-Principle）" class="headerlink" title="1. 开放封闭原则（Open Close Principle）"></a>1. 开放封闭原则（Open Close Principle）</h3><blockquote>
+<p>一个实体（类、函数、模块等）应该<strong>对扩展开放，对修改关闭</strong></p>
+</blockquote>
+</li>
+</ul>
+<ol>
+<li>每次发生变化时，要通过添加新的代码来增强现有类型的行为，而不是修改原有的代码。</li>
+<li>符合开放封闭原则的最好方式是提供一个固有的接口，然后让所有可能发生变化的类实现该接口，让固定的接口与相关对象进行交互。</li>
+<li>可以使程序的扩展性更好，易于维护和升级。</li>
+<li>需要使用接口和抽象类。<h3 id="2-里氏替换原则（Liskov-Substitution-Principle）"><a href="#2-里氏替换原则（Liskov-Substitution-Principle）" class="headerlink" title="2. 里氏替换原则（Liskov Substitution Principle）"></a>2. 里氏替换原则（Liskov Substitution Principle）</h3><blockquote>
+<p>任何基类可以出现的地方，子类一定可以出现。</p>
+</blockquote>
+</li>
+<li>LSP是继承复用的基石。</li>
+<li>在软件开发过程中，子类替换父类后，程序的行为是一样的。 </li>
+<li>只有当子类可以替换掉基类，且软件单位的功能不受到影响时，基类才能真正被复用，而子类也能够在基类的基础上增加新的行为。</li>
+<li>LSP是对开放封闭原则的补充，是对实现开放封闭原则的具体步骤的规范。<h3 id="3-依赖倒置原则（Dependence-Inversion-Principle）"><a href="#3-依赖倒置原则（Dependence-Inversion-Principle）" class="headerlink" title="3. 依赖倒置原则（Dependence Inversion Principle）"></a>3. 依赖倒置原则（Dependence Inversion Principle）</h3><blockquote>
+<p>针对接口编程，依赖于抽象而不依赖于具体。</p>
+</blockquote>
+</li>
+<li>细节应该依赖于抽象，而抽象不应该依赖于细节。</li>
+<li>所谓的 <strong>面向接口编程，而不是面向实现编程</strong> 。这样可以降低客户与具体实现的耦合。<h3 id="4-接口隔离原则（Interface-Segregation-Principle）"><a href="#4-接口隔离原则（Interface-Segregation-Principle）" class="headerlink" title="4. 接口隔离原则（Interface Segregation Principle）"></a>4. 接口隔离原则（Interface Segregation Principle）</h3><blockquote>
+<p>使用多个隔离的接口，比使用单个接口要好。</p>
+</blockquote>
+</li>
+<li>不要让一个单一的接口承担过多的职责，而应把每个职责分离到多个专门的接口中，进行接口分离。</li>
+<li>要降低类之间的耦合。</li>
+<li>强调降低依赖，降低耦合。<h3 id="5-迪米特法则（Demeter-Principle）"><a href="#5-迪米特法则（Demeter-Principle）" class="headerlink" title="5. 迪米特法则（Demeter Principle）"></a>5. 迪米特法则（Demeter Principle）</h3><blockquote>
+<p>一个实体应当尽量少地与其他实体之间发生相互作用，使得系统功能模块相对独立。</p>
+</blockquote>
+</li>
+<li>又称：<strong>最少知道原则</strong>。</li>
+<li>遵守迪米特法则的模块修改时影响的更少，扩展更加容易。</li>
+<li><strong>外观模式</strong>（Facade Pattern)和<strong>中介者模式</strong>（Mediator Pattern）就使用了迪米特法则。<h3 id="6-合成复用原则（Composite-Reuse-Principle）"><a href="#6-合成复用原则（Composite-Reuse-Principle）" class="headerlink" title="6. 合成复用原则（Composite Reuse Principle）"></a>6. 合成复用原则（Composite Reuse Principle）</h3><blockquote>
+<p>尽量使用合成/聚合的方式，而不是使用继承。</p>
+</blockquote>
+<h2 id="三、-设计模式分类"><a href="#三、-设计模式分类" class="headerlink" title="三、 设计模式分类"></a>三、 设计模式分类</h2>设计模式总共分为三大类，共23种设计模式。<br><img src="https://cdn.xiaofangdyd.cn/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B.jpg" alt="设计模式分类.jpg"></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/阿里云搭建typecho博客平台/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Fanghl">
+      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
+      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="万有笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/阿里云搭建typecho博客平台/" class="post-title-link" itemprop="url">阿里云搭建typecho博客平台</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+        
+          
+
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-29 17:52:32" itemprop="dateCreated datePublished" datetime="2018-03-29T17:52:32+08:00">2018-03-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 11:47:23" itemprop="dateModified" datetime="2019-01-30T11:47:23+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>经过半年多的折腾，我的博客最终在阿里云的服务器成功落户，中间经历了更换域名，导入ssl证书，更换博客平台，网站迁移，网站备案等一系列事件。在弄这些东西的时候，免不了查询资料，我发现国内的资料要么比较老，要么就不全。这篇博客是我安装的一个记录，也可以算是备份。如果有和我一样情况的，本文也可以是一个参考。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/阿里云搭建typecho博客平台/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/同步和异步，阻塞和非阻塞/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Fanghl">
+      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
+      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="万有笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/同步和异步，阻塞和非阻塞/" class="post-title-link" itemprop="url">同步和异步，阻塞和非阻塞</a>
               
             
           </h2>
@@ -923,7 +1660,7 @@
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/25/同步和异步，阻塞和非阻塞/#more" rel="contents">
+              <a class="btn" href="/同步和异步，阻塞和非阻塞/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -983,7 +1720,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/17/生活中的算法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/生活中的算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -1003,7 +1740,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/17/生活中的算法/" class="post-title-link" itemprop="url">生活中的算法</a>
+                <a href="/生活中的算法/" class="post-title-link" itemprop="url">生活中的算法</a>
               
             
           </h2>
@@ -1140,7 +1877,7 @@
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/17/生活中的算法/#more" rel="contents">
+              <a class="btn" href="/生活中的算法/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1200,7 +1937,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/11/诸事皆宜，百无禁忌/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/诸事皆宜，百无禁忌/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -1220,7 +1957,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/11/诸事皆宜，百无禁忌/" class="post-title-link" itemprop="url">诸事皆宜，百无禁忌</a>
+                <a href="/诸事皆宜，百无禁忌/" class="post-title-link" itemprop="url">诸事皆宜，百无禁忌</a>
               
             
           </h2>
@@ -1354,7 +2091,7 @@
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/11/诸事皆宜，百无禁忌/#more" rel="contents">
+              <a class="btn" href="/诸事皆宜，百无禁忌/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1414,7 +2151,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/《2018刑侦科推理试题》详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/《2018刑侦科推理试题》详解/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -1434,7 +2171,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/02/《2018刑侦科推理试题》详解/" class="post-title-link" itemprop="url">《2018刑侦科推理试题》详解</a>
+                <a href="/《2018刑侦科推理试题》详解/" class="post-title-link" itemprop="url">《2018刑侦科推理试题》详解</a>
               
             
           </h2>
@@ -1571,7 +2308,7 @@
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/02/《2018刑侦科推理试题》详解/#more" rel="contents">
+              <a class="btn" href="/《2018刑侦科推理试题》详解/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1631,7 +2368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/14/《新东方快车谋杀案》一部画面比剧情好看的推理电影/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/《新东方快车谋杀案》一部画面比剧情好看的推理电影/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Fanghl">
@@ -1651,7 +2388,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/02/14/《新东方快车谋杀案》一部画面比剧情好看的推理电影/" class="post-title-link" itemprop="url">《新东方快车谋杀案》一部画面比剧情好看的推理电影</a>
+                <a href="/《新东方快车谋杀案》一部画面比剧情好看的推理电影/" class="post-title-link" itemprop="url">《新东方快车谋杀案》一部画面比剧情好看的推理电影</a>
               
             
           </h2>
@@ -1788,7 +2525,7 @@
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/02/14/《新东方快车谋杀案》一部画面比剧情好看的推理电影/#more" rel="contents">
+              <a class="btn" href="/《新东方快车谋杀案》一部画面比剧情好看的推理电影/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1797,652 +2534,6 @@
         
       
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/27/《月亮和六便士》-是否有个魔鬼抓住了他的灵魂？/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Fanghl">
-      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
-      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="万有笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/27/《月亮和六便士》-是否有个魔鬼抓住了他的灵魂？/" class="post-title-link" itemprop="url">《月亮和六便士》----是否有个魔鬼抓住了他的灵魂？</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-        
-          
-
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-27 11:25:03" itemprop="dateCreated datePublished" datetime="2018-01-27T11:25:03+08:00">2018-01-27</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-29 23:35:53" itemprop="dateModified" datetime="2019-01-29T23:35:53+08:00">2019-01-29</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/方方说/" itemprop="url" rel="index"><span itemprop="name">方方说</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/方方说/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">2.1k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">3 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>啃完了《月亮与六便士》，有种当头一棒的痛感。总是渴望找到一项东西，然后为之不管不顾、 为之疯狂。一潭死水的生活最是让人窒息 。最痛苦的事不是平衡地上的六便士和天上月亮的关系，而是当你想仰望，却压根没找到天上的月亮。<br>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/01/27/《月亮和六便士》-是否有个魔鬼抓住了他的灵魂？/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </p></div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/Hello-Typecho/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Fanghl">
-      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
-      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="万有笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/25/Hello-Typecho/" class="post-title-link" itemprop="url">Hello Typecho!</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-        
-          
-
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-25 10:29:58" itemprop="dateCreated datePublished" datetime="2018-01-25T10:29:58+08:00">2018-01-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-29 23:28:50" itemprop="dateModified" datetime="2019-01-29T23:28:50+08:00">2019-01-29</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">233</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">1 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这是由Typecho创建的文章！<br>当然这是一篇初始页，也代表着我的博客迎来了一次翻天覆地的改变，虽然以前的博客已经 <del>迁移到<a href="http://xiaofangdyd.tech" target="_blank" rel="noopener">xiaofangdyd.tech</a>上</del> 关闭，就让那些过去的就过去吧！<br>更新记录：</p>
-<ul>
-<li>博客迁移至<del>洛杉矶、北京</del>Github服务器。（2019.01.29）</li>
-<li>使用七牛oss托管图床（2019.01.29）</li>
-<li>域名备案</li>
-<li><del>博客程序从Wordpress更换为Typecho轻量级博客框架。</del></li>
-<li>博客采用hexo框架</li>
-<li>尽量用Markdown格式将之前的文章转移过来。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/《雪国列车》-很多精彩，很多遗憾/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Fanghl">
-      <meta itemprop="description" content="做个好市民，酒色财气样样精通">
-      <meta itemprop="image" content="https://i.loli.net/2019/01/29/5c5043c4a8fa6.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="万有笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/22/《雪国列车》-很多精彩，很多遗憾/" class="post-title-link" itemprop="url">《雪国列车》--很多精彩，很多遗憾</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-        
-          
-
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-22 23:53:37" itemprop="dateCreated datePublished" datetime="2018-01-22T23:53:37+08:00">2018-01-22</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-29 23:24:17" itemprop="dateModified" datetime="2019-01-29T23:24:17+08:00">2019-01-29</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/方方说/" itemprop="url" rel="index"><span itemprop="name">方方说</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/方方说/电影/" itemprop="url" rel="index"><span itemprop="name">电影</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">934</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">2 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://cdn.xiaofangdyd.cn/%E9%9B%AA%E5%9B%BD%E5%88%97%E8%BD%A6.jpeg" alt="雪国列车.jpeg"><br>《雪国列车》是我非常喜欢的一部电影，将人类文明史浓缩在一节节车厢里面，凭依上帝视角进行审视。<br>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/01/22/《雪国列车》-很多精彩，很多遗憾/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </p></div>
 
     
 
@@ -2528,7 +2619,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2555,7 +2646,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2718,7 +2811,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">29k</span>
+    <span title="站点总字数">36k</span>
   
 
   
@@ -2727,7 +2820,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">48 分钟</span>
+    <span title="站点阅读时长">1:01</span>
   
 -->
 </div>
@@ -2770,7 +2863,7 @@
 
   <div class="powered-by">
     <i class="fa fa-pencil"></i>
-      <span class="post-count">博客全站共14.2k字</span>
+      <span class="post-count">博客全站共17.7k字</span>
   </div>
 
 
